@@ -13,6 +13,7 @@
   <a href="#-my-solution">Solution</a> •
   <a href="#-features">Features</a> •
   <a href="#-screenshots">Screenshots</a> •
+  <a href="#-technical-deep-dive">Technical Deep Dive</a> •
   <a href="#-architecture">Architecture</a> •
   <a href="#-tech-stack">Tech Stack</a>
 </p>
@@ -130,6 +131,340 @@ Organizations face a critical dilemma when implementing AI-powered support:
 
 ---
 
+## 🔬 Technical Deep Dive
+
+### Project Structure
+
+```
+DorrianAI/
+├── backend/                    # FastAPI REST API
+│   ├── api/
+│   │   ├── core/              # Config, security, middleware
+│   │   │   ├── config.py      # Pydantic settings management
+│   │   │   ├── security.py    # JWT auth, password hashing, RBAC
+│   │   │   ├── db.py          # SQLite database setup
+│   │   │   └── rate_limiter.py
+│   │   ├── routers/           # API endpoints (11 modules)
+│   │   │   ├── auth.py        # Login, register, refresh tokens
+│   │   │   ├── chat.py        # RAG-powered AI responses
+│   │   │   ├── documents.py   # Upload, index, preview
+│   │   │   ├── sessions.py    # Chat session management
+│   │   │   ├── feedback.py    # Knowledge gaps, flagged responses
+│   │   │   ├── users.py       # User CRUD, role management
+│   │   │   ├── branding.py    # White-label configuration
+│   │   │   ├── ai_memory.py   # Persistent AI instructions
+│   │   │   └── system.py      # Storage, categories, config
+│   │   ├── models/            # Pydantic request/response schemas
+│   │   └── services/          # Business logic layer (8 services)
+│   └── data/                  # SQLite DBs, tenant data, uploads
+│
+├── frontend/                   # React TypeScript SPA
+│   └── src/
+│       ├── pages/             # 8 main pages
+│       │   ├── LoginPage.tsx
+│       │   ├── ChatPage.tsx
+│       │   ├── SessionsPage.tsx
+│       │   ├── DocumentsPage.tsx
+│       │   ├── KnowledgeGapsPage.tsx
+│       │   ├── UsersPage.tsx
+│       │   ├── SettingsPage.tsx
+│       │   └── DevPage.tsx    # 7-tab developer settings
+│       ├── components/        # Reusable UI components
+│       ├── services/          # API client layer (9 services)
+│       ├── store/             # Zustand state management
+│       └── types/             # TypeScript interfaces
+│
+└── src/nhs_ai_assistant/       # Core AI/RAG Library
+    ├── rag/                   # RAG pipeline components
+    │   ├── consultant.py      # Main orchestrator
+    │   ├── retriever.py       # Vector search
+    │   ├── confidence_scorer.py
+    │   ├── intent_classifier.py
+    │   ├── email_parser.py
+    │   └── feedback_logger.py
+    ├── embeddings/            # Embedding models
+    ├── vectorstore/           # ChromaDB integration
+    ├── llm/                   # LLM providers (Ollama, Azure)
+    └── ingest/                # Document processing
+```
+
+---
+
+### API Endpoints (40+)
+
+| Category | Endpoint | Method | Description |
+|----------|----------|--------|-------------|
+| **Auth** | `/api/auth/login` | POST | JWT token authentication |
+| | `/api/auth/register` | POST | User registration |
+| | `/api/auth/refresh` | POST | Refresh access token |
+| | `/api/auth/me` | GET | Current user profile |
+| **Chat** | `/api/chat/query` | POST | RAG-powered AI response |
+| | `/api/chat/parse-email` | POST | Email chain parsing |
+| | `/api/chat/history/{id}` | GET | Chat history |
+| | `/api/chat/draft-email` | POST | Generate email draft |
+| **Sessions** | `/api/sessions/create` | POST | Create chat session |
+| | `/api/sessions/list` | GET | List user sessions |
+| | `/api/sessions/{id}` | DELETE | Delete session |
+| | `/api/sessions/{id}/close` | POST | Close with resolution |
+| **Documents** | `/api/documents/upload` | POST | Upload document |
+| | `/api/documents/list` | GET | List documents |
+| | `/api/documents/ingest` | POST | Index to vector store |
+| | `/api/documents/{id}/preview` | GET | Preview content |
+| **Feedback** | `/api/feedback/knowledge-gaps` | GET | Low-confidence queries |
+| | `/api/feedback/flag` | POST | Flag incorrect response |
+| | `/api/feedback/flagged` | GET | List flagged responses |
+| | `/api/feedback/escalate` | POST | Escalate to developer |
+| **Branding** | `/api/branding` | GET | Get tenant branding |
+| | `/api/branding` | PATCH | Update branding |
+| | `/api/branding/logo` | POST | Upload custom logo |
+| **AI Memory** | `/api/ai-memory/instructions` | GET | Get AI instructions |
+| | `/api/ai-memory/instructions` | POST | Add instruction |
+| | `/api/ai-memory/refine` | POST | AI-assisted refinement |
+
+---
+
+### TypeScript Interfaces
+
+```typescript
+// AI Response Structure
+interface ChatResponse {
+  message_id: string;
+  session_id: string;
+  query: string;
+  response: string;
+  classification: 'Simple' | 'Moderate' | 'Complex';
+  confidence_score: number;      // 0.0 - 1.0
+  context_used?: string;         // RAG context
+  sources?: string[];            // Document citations
+  timestamp: string;
+  processing_time_ms?: number;
+  metadata?: {
+    category: string;
+    subcategory: string;
+    clarifying_questions?: string[];
+    next_steps?: string;
+    email_draft?: string;
+  };
+}
+
+// User with RBAC
+interface User {
+  id: string;
+  email: string;
+  full_name: string;
+  tenant_id: string;
+  role: 'user' | 'admin' | 'dev';
+  is_active: boolean;
+  permissions: string[];
+  created_at: string;
+  last_login?: string;
+}
+
+// Knowledge Gap Detection
+interface KnowledgeGap {
+  id: string;
+  query: string;
+  confidence_score: number;
+  category: string;
+  suggested_action: string;
+  status: 'pending' | 'reviewed' | 'resolved' | 'escalated';
+  admin_notes?: string;
+  created_at: string;
+}
+
+// White-Label Branding
+interface BrandingConfig {
+  app_name: string;
+  tagline: string;
+  logo_url?: string;
+  favicon_url?: string;
+  theme: {
+    primary_color: string;
+    secondary_color: string;
+    background_preset: string;
+    font_family: string;
+  };
+  prompts: {
+    system_role: string;
+    industry_context: string;
+    personality: string;
+  };
+}
+```
+
+---
+
+### RAG Pipeline Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                        USER QUERY                                    │
+│  "How do I book annual leave if my manager is on holiday?"          │
+└────────────────────────────────┬────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    1. INTENT CLASSIFIER                              │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ • AI-powered classification using LLM                       │    │
+│  │ • Detects: greeting, question, complaint, escalation        │    │
+│  │ • Conversational intents bypass RAG (direct response)       │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+└────────────────────────────────┬────────────────────────────────────┘
+                                 │ question detected
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    2. DOCUMENT RETRIEVER                             │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ Query → Embedding (all-MiniLM-L6-v2) → Vector Search        │    │
+│  │                                                              │    │
+│  │ ChromaDB returns top-k similar documents:                    │    │
+│  │ • "Annual Leave Policy.pdf" (score: 0.89)                   │    │
+│  │ • "Manager Absence Procedures.docx" (score: 0.76)           │    │
+│  │ • "HR Self-Service Guide.txt" (score: 0.71)                 │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+└────────────────────────────────┬────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    3. CONFIDENCE SCORER                              │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ Calculates confidence based on:                              │    │
+│  │ • Similarity scores (weighted average)                       │    │
+│  │ • Document relevance to query                                │    │
+│  │ • Coverage of query terms                                    │    │
+│  │                                                              │    │
+│  │ Result: HIGH (0.85) - Documents directly answer query       │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+└────────────────────────────────┬────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    4. PROMPT CONSTRUCTOR                             │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ Builds context-aware prompt with:                            │    │
+│  │ • System role (from AI Prompts config)                      │    │
+│  │ • AI Memory instructions (persistent rules)                  │    │
+│  │ • Retrieved document context                                 │    │
+│  │ • Session conversation history                               │    │
+│  │ • Confidence level guidance                                  │    │
+│  │ • AI Behavior settings (questions, style, escalation)       │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+└────────────────────────────────┬────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    5. LLM GENERATION                                 │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ Ollama (local) or Azure OpenAI (cloud)                      │    │
+│  │                                                              │    │
+│  │ Model: qwen2.5-coder:7b (structured JSON output)            │    │
+│  │ Temperature: 0.7                                             │    │
+│  │ Max tokens: 1500                                             │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+└────────────────────────────────┬────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    6. RESPONSE PARSER                                │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ Structured JSON output:                                      │    │
+│  │ {                                                            │    │
+│  │   "category": "HR",                                         │    │
+│  │   "subcategory": "Leave & Absence",                         │    │
+│  │   "complexity": "Simple",                                   │    │
+│  │   "next_steps": "1. Log into ESR Self-Service...",         │    │
+│  │   "clarifying_questions": [],                               │    │
+│  │   "email_draft": null                                       │    │
+│  │ }                                                            │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+└────────────────────────────────┬────────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    7. FEEDBACK LOGGER                                │
+│  ┌─────────────────────────────────────────────────────────────┐    │
+│  │ If confidence < threshold:                                   │    │
+│  │ • Log to knowledge_gaps.jsonl                               │    │
+│  │ • Flag for admin review                                      │    │
+│  │ • Suggest documentation to add                               │    │
+│  └─────────────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Challenges & Solutions
+
+During development, I encountered and solved several significant technical challenges:
+
+#### 1. Email Chain Parsing Accuracy
+
+**Problem:** Initial email parser was extracting the wrong query from complex email chains with multiple replies, forwards, and CC'd participants.
+
+**Solution:** Built a sophisticated parser that:
+- Identifies the original issue by traversing the chain bottom-up
+- Extracts context (error messages, troubleshooting steps tried, deadlines)
+- Correctly attributes users from "From:" headers
+- Handles edge cases: HTML formatting, emojis, missing headers
+
+```python
+# Key insight: Find original issue, not latest reply
+def _find_original_issue(self, email_blocks: List[str]) -> str:
+    """
+    Traverse email chain to find the original query.
+    The actual issue is usually in the FIRST email, not the latest.
+    """
+    # Parse in reverse chronological order
+    # Look for question patterns, error messages, requests
+```
+
+#### 2. RAG Confidence Scoring
+
+**Problem:** AI was responding confidently even when documents didn't contain relevant information, leading to hallucinated answers.
+
+**Solution:** Implemented multi-factor confidence scoring:
+- Weighted average of similarity scores
+- Query term coverage analysis
+- Automatic knowledge gap logging when confidence < threshold
+- UI displays confidence badges so users know when to verify
+
+#### 3. Context-Aware Clarifying Questions
+
+**Problem:** AI was asking generic questions regardless of context. For HR queries, it would ask IT troubleshooting questions.
+
+**Solution:** Category-aware prompt construction:
+```python
+# Different question logic per category
+if category == "HR":
+    # Ask about employee details, dates, leave types
+elif category == "IT":
+    # Ask about error messages, systems, troubleshooting steps
+elif category == "Training":
+    # Ask about course names, deadlines, access issues
+```
+
+#### 4. White-Label Theme Persistence
+
+**Problem:** Theme changes weren't persisting across page refreshes, and dynamic CSS variable injection was causing FOUC (Flash of Unstyled Content).
+
+**Solution:**
+- Store theme in both localStorage and backend database
+- Load theme in BrandingProvider before first render
+- Inject CSS variables at document root level
+- 8 carefully designed gradient presets for instant professional looks
+
+#### 5. Multi-Turn Conversation Context
+
+**Problem:** AI was losing context in multi-turn conversations, asking for information already provided.
+
+**Solution:**
+- Session manager tracks full conversation history
+- Prompt includes summarized context from previous turns
+- AI explicitly instructed not to re-ask for provided information
+
+---
+
 ## 🏗️ Architecture
 
 ```
@@ -200,44 +535,68 @@ Organizations face a critical dilemma when implementing AI-powered support:
 
 ## 📊 Project Metrics
 
-| Metric | Value |
-|--------|-------|
-| **Frontend Pages** | 8 |
-| **API Endpoints** | 40+ |
-| **Backend Services** | 8 |
-| **RAG Components** | 9 |
-| **Lines of Code** | 15,000+ |
-| **Development Time** | 3 months |
+| Category | Metric | Value |
+|----------|--------|-------|
+| **Frontend** | React Pages | 8 |
+| | React Components | 15+ |
+| | TypeScript Interfaces | 25+ |
+| | Zustand Stores | 3 |
+| | API Service Modules | 9 |
+| **Backend** | API Routers | 11 |
+| | API Endpoints | 40+ |
+| | Service Classes | 8 |
+| | Pydantic Models | 30+ |
+| **RAG Engine** | Pipeline Components | 9 |
+| | LLM Providers | 2 (Ollama, Azure) |
+| | Embedding Models | 1 (all-MiniLM-L6-v2) |
+| **Testing** | Stress Test Cases | 50+ |
+| | Edge Case Scenarios | 15+ |
+| **Overall** | Lines of Code | 15,000+ |
+| | Git Commits | 100+ |
+| | Development Time | 3 months |
 
 ---
 
 ## 🎓 Skills Demonstrated
 
-This project showcases my expertise in:
+This project showcases expertise across the full AI/SaaS development stack:
 
 ### Full-Stack Development
-- ✅ React 18 with TypeScript and modern hooks
-- ✅ FastAPI backend with async/await patterns
-- ✅ REST API design with OpenAPI documentation
-- ✅ JWT authentication and refresh token flow
+| Skill | Implementation |
+|-------|----------------|
+| React 18 | Functional components, hooks, context |
+| TypeScript | Strict typing, interfaces, generics |
+| State Management | Zustand stores with persistence |
+| API Design | RESTful endpoints with OpenAPI docs |
+| Authentication | JWT with refresh tokens, bcrypt hashing |
 
 ### AI/ML Engineering
-- ✅ RAG (Retrieval-Augmented Generation) pipeline
-- ✅ Vector embeddings and semantic search
-- ✅ LLM prompt engineering and optimization
-- ✅ Confidence scoring algorithms
+| Skill | Implementation |
+|-------|----------------|
+| RAG Pipeline | Custom 7-stage retrieval-augmented generation |
+| Vector Search | ChromaDB with similarity thresholds |
+| Embeddings | sentence-transformers (384-dim vectors) |
+| Prompt Engineering | Category-aware, context-injected prompts |
+| Confidence Scoring | Multi-factor scoring with gap detection |
+| Intent Classification | AI-powered conversational routing |
 
 ### Enterprise Architecture
-- ✅ Multi-tenant data isolation
-- ✅ Role-based access control (RBAC)
-- ✅ White-label/SaaS architecture
-- ✅ Knowledge management systems
+| Skill | Implementation |
+|-------|----------------|
+| Multi-Tenancy | Isolated data directories per tenant |
+| RBAC | 3-tier role hierarchy with route guards |
+| White-Label | Full branding customization (name, logo, colors, AI personality) |
+| Rate Limiting | Request throttling middleware |
+| Error Handling | Graceful failures with user-friendly messages |
 
-### DevOps & Tooling
-- ✅ Docker containerization
-- ✅ Git version control
-- ✅ CI/CD pipeline design
-- ✅ Local-first architecture
+### DevOps & Best Practices
+| Skill | Implementation |
+|-------|----------------|
+| Docker | Multi-stage builds for production |
+| Git | Feature branches, semantic commits |
+| Testing | Unit tests, stress tests, edge cases |
+| Documentation | API docs, code comments, guides |
+| Local-First | Runs entirely offline with Ollama |
 
 ---
 
