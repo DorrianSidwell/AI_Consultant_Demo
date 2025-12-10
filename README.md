@@ -12,11 +12,28 @@
   <a href="#-the-problem">Problem</a> •
   <a href="#-my-solution">Solution</a> •
   <a href="#-features">Features</a> •
+  <a href="#-skills-demonstrated">Skills</a> •
+  <a href="#-tech-stack">Tech Stack</a> •
   <a href="#-screenshots">Screenshots</a> •
-  <a href="#-technical-deep-dive">Technical Deep Dive</a> •
-  <a href="#-architecture">Architecture</a> •
-  <a href="#-tech-stack">Tech Stack</a>
+  <a href="#-technical-deep-dive">Deep Dive</a>
 </p>
+
+---
+
+## 📋 TL;DR (for Recruiters & Hiring Managers)
+
+> **DorrianAI** is a production-style, full-stack AI knowledge assistant I designed and built solo. It demonstrates real-world skills across the modern AI/SaaS stack.
+
+| What | Details |
+|------|---------|
+| **Frontend** | React 18 + TypeScript, Material-UI, Zustand state management |
+| **Backend** | FastAPI (Python), JWT authentication, 3-tier RBAC |
+| **AI/RAG** | Custom 7-stage RAG pipeline, ChromaDB vector search, local LLMs via Ollama |
+| **Cloud Option** | Azure OpenAI integration for cloud deployments |
+| **Architecture** | Multi-tenant, white-label, fully configurable per organization |
+| **Built By** | Solo developer – 15,000+ lines of code over 3 months |
+
+> **📌 Note:** This repository is a documentation and demo showcase only. The production source code is private and not open-source.
 
 ---
 
@@ -44,6 +61,23 @@ Organizations face a critical dilemma when implementing AI-powered support:
 | **Your Knowledge** | RAG system trained on YOUR documents, policies, and SOPs |
 | **White-Label** | Fully customizable branding, colors, and AI personality |
 | **Enterprise Ready** | JWT auth, 3-tier RBAC, multi-tenant architecture |
+
+### 💡 Why This Matters (Impact)
+
+- **Reduces repeat queries** – Staff find answers themselves instead of emailing support
+- **Improves documentation quality** – Knowledge gaps auto-surface missing content
+- **Builds institutional memory** – AI Memory captures tribal knowledge as explicit rules
+- **Scales with zero marginal cost** – Local LLM means no per-query API fees at scale
+
+### 🌐 Industry-Agnostic Design
+
+The original implementation targeted **NHS / Learning & Development workflows**, but the architecture and RAG engine are fully **domain-agnostic**. The same codebase can be configured for:
+
+- Healthcare operations & clinical support
+- Public sector service desks
+- SaaS customer success teams
+- HR/IT internal helpdesks
+- Any organization with policy/SOP documentation
 
 ---
 
@@ -78,6 +112,90 @@ Organizations face a critical dilemma when implementing AI-powered support:
 - **Persistent Instructions** - Custom rules the AI always follows
 - **AI Refinement** - Let AI improve your instructions
 - **Escalation Workflow** - Knowledge Gaps → Admin Review → AI Memory
+
+> 📄 **For the full feature matrix by page** (Chat, Documents, Sessions, Knowledge Gaps, Users, Developer Settings, Security), see **[Full Feature List](FEATURES.md)**.
+
+---
+
+## 🎓 Skills Demonstrated
+
+This project showcases expertise across the full AI/SaaS development stack:
+
+### Full-Stack Development
+| Skill | Implementation |
+|-------|----------------|
+| React 18 | Functional components, hooks, context |
+| TypeScript | Strict typing, interfaces, generics |
+| State Management | Zustand stores with persistence |
+| API Design | RESTful endpoints with OpenAPI docs |
+| Authentication | JWT with refresh tokens, bcrypt hashing |
+
+### AI/ML Engineering
+| Skill | Implementation |
+|-------|----------------|
+| RAG Pipeline | Custom 7-stage retrieval-augmented generation |
+| Vector Search | ChromaDB with similarity thresholds |
+| Embeddings | sentence-transformers (384-dim vectors) |
+| Prompt Engineering | Category-aware, context-injected prompts |
+| Confidence Scoring | Multi-factor scoring with gap detection |
+| Intent Classification | AI-powered conversational routing |
+
+### Enterprise Architecture
+| Skill | Implementation |
+|-------|----------------|
+| Multi-Tenancy | Isolated data directories per tenant |
+| RBAC | 3-tier role hierarchy with route guards |
+| White-Label | Full branding customization (name, logo, colors, AI personality) |
+| Rate Limiting | Request throttling middleware |
+| Error Handling | Graceful failures with user-friendly messages |
+
+### DevOps & Best Practices
+| Skill | Implementation |
+|-------|----------------|
+| Docker | Multi-stage builds for production |
+| Git | Feature branches, semantic commits |
+| Testing | Unit tests, stress tests, edge cases |
+| Documentation | API docs, code comments, guides |
+| Local-First | Runs entirely offline with Ollama |
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|------------|---------|
+| **React 18** | Modern UI with hooks |
+| **TypeScript** | Type-safe development |
+| **Material-UI (MUI)** | Component library with theming |
+| **Zustand** | Lightweight state management |
+| **Vite** | Fast build and HMR |
+
+### Backend
+| Technology | Purpose |
+|------------|---------|
+| **FastAPI** | High-performance async API |
+| **Pydantic v2** | Request/response validation |
+| **SQLite** | User, session, and config storage |
+| **JWT + bcrypt** | Secure authentication |
+
+### AI/ML
+| Technology | Purpose |
+|------------|---------|
+| **Ollama** | Local LLM runtime (Qwen, Llama, etc.) |
+| **Azure OpenAI** | Optional cloud LLM provider |
+| **ChromaDB** | Vector store for semantic search |
+| **sentence-transformers** | Local embedding generation |
+
+### Deployment Options
+
+DorrianAI supports flexible deployment to match your security and infrastructure requirements:
+
+| Option | Stack | Use Case |
+|--------|-------|----------|
+| **Local / On-Prem** | Ollama + local models, SQLite, ChromaDB | Maximum privacy, zero cloud dependency |
+| **Azure Cloud** | Azure OpenAI, Azure Blob Storage, Azure SQL | Enterprise scale, managed infrastructure |
+| **Hybrid** | Local embeddings + cloud LLM, or vice versa | Balance of privacy and capability |
 
 ---
 
@@ -122,7 +240,7 @@ Organizations face a critical dilemma when implementing AI-powered support:
 | ![Branding Tab](screenshots/devpage/branding/branding.jpg) | **Branding Tab** - App name, logo, tagline customization |
 | ![Theme Tab](screenshots/devpage/theme/theme%20.jpg) | **Theme Tab** - Colors, fonts, 8 background presets |
 | ![AI Prompts Tab](screenshots/devpage/ai-prompts/AI%20prompt.jpg) | **AI Prompts** - System role, personality, industry context |
-| ![AI Config Tab](screenshots/devpage/ai-config/AI%20config.jpg) | **AI Config** - Model selection, temperature, retrieval settings and Azure cloud option|
+| ![AI Config Tab](screenshots/devpage/ai-config/AI%20config.jpg) | **AI Config** - Model selection, temperature, retrieval settings |
 | ![AI Behavior Tab](screenshots/devpage/ai-behavior/AI%20Behaviour.jpg) | **AI Behavior** - Response style, confidence thresholds |
 | ![Escalated Items Tab](screenshots/devpage/escalated/Escalated%20items.jpg) | **Escalated Items** - Flagged responses for developer review |
 | ![AI Memory Tab](screenshots/devpage/AI%20memory.jpg) | **AI Memory** - Persistent custom instructions |
@@ -504,35 +622,6 @@ elif category == "Training":
 
 ---
 
-## 🛠️ Tech Stack
-
-### Frontend
-| Technology | Purpose |
-|------------|---------|
-| **React 18** | Modern UI with hooks |
-| **TypeScript** | Type-safe development |
-| **Material-UI (MUI)** | Component library with theming |
-| **Zustand** | Lightweight state management |
-| **Vite** | Fast build and HMR |
-
-### Backend
-| Technology | Purpose |
-|------------|---------|
-| **FastAPI** | High-performance async API |
-| **Pydantic v2** | Request/response validation |
-| **SQLite** | User, session, and config storage |
-| **JWT + bcrypt** | Secure authentication |
-
-### AI/ML
-| Technology | Purpose |
-|------------|---------|
-| **Ollama** | Local LLM runtime (Qwen, Llama, etc.) |
-| **Azure OpenAI** | Optional cloud LLM provider |
-| **ChromaDB** | Vector store for semantic search |
-| **sentence-transformers** | Local embedding generation |
-
----
-
 ## 📊 Project Metrics
 
 | Category | Metric | Value |
@@ -554,49 +643,6 @@ elif category == "Training":
 | **Overall** | Lines of Code | 15,000+ |
 | | Git Commits | 100+ |
 | | Development Time | 3 months |
-
----
-
-## 🎓 Skills Demonstrated
-
-This project showcases expertise across the full AI/SaaS development stack:
-
-### Full-Stack Development
-| Skill | Implementation |
-|-------|----------------|
-| React 18 | Functional components, hooks, context |
-| TypeScript | Strict typing, interfaces, generics |
-| State Management | Zustand stores with persistence |
-| API Design | RESTful endpoints with OpenAPI docs |
-| Authentication | JWT with refresh tokens, bcrypt hashing |
-
-### AI/ML Engineering
-| Skill | Implementation |
-|-------|----------------|
-| RAG Pipeline | Custom 7-stage retrieval-augmented generation |
-| Vector Search | ChromaDB with similarity thresholds |
-| Embeddings | sentence-transformers (384-dim vectors) |
-| Prompt Engineering | Category-aware, context-injected prompts |
-| Confidence Scoring | Multi-factor scoring with gap detection |
-| Intent Classification | AI-powered conversational routing |
-
-### Enterprise Architecture
-| Skill | Implementation |
-|-------|----------------|
-| Multi-Tenancy | Isolated data directories per tenant |
-| RBAC | 3-tier role hierarchy with route guards |
-| White-Label | Full branding customization (name, logo, colors, AI personality) |
-| Rate Limiting | Request throttling middleware |
-| Error Handling | Graceful failures with user-friendly messages |
-
-### DevOps & Best Practices
-| Skill | Implementation |
-|-------|----------------|
-| Docker | Multi-stage builds for production |
-| Git | Feature branches, semantic commits |
-| Testing | Unit tests, stress tests, edge cases |
-| Documentation | API docs, code comments, guides |
-| Local-First | Runs entirely offline with Ollama |
 
 ---
 
@@ -653,19 +699,28 @@ User (Chat, Sessions, Settings)
 
 ---
 
-## 📬 Contact
+## 👤 About Me
 
-**Dorrian Sidwell**
+I'm **Dorrian Sidwell**, a Data & AI engineer focused on building production-style AI assistants and automation. I work across the full stack—React/TypeScript on the frontend, FastAPI/Python on the backend, and RAG pipelines with local LLMs and Azure OpenAI.
 
-- 💼 [LinkedIn](https://linkedin.com/in/dorriansidwell)
-- 🐙 [GitHub](https://github.com/DorrianSidwell)
-- 📧 Email: soaddorrian@gmail.com
+I enjoy solving real business problems with AI, especially where privacy, multi-tenancy, and user experience all matter.
 
 ---
 
-## ⚠️ Note
+## 🎬 Live Demo Availability
 
-This is a **showcase repository** demonstrating the features and architecture of DorrianAI. The source code is proprietary and maintained in a private repository.
+I can run the full application locally and demonstrate it via screen-share during interviews. Recruiters and hiring managers are welcome to request a walkthrough.
+
+📩 **Contact me to schedule a demo:**
+- 💼 [LinkedIn](https://linkedin.com/in/dorriansidwell)
+- 🐙 [GitHub](https://github.com/DorrianSidwell)
+- 📧 Email: [your-email@example.com]
+
+---
+
+## ⚠️ Repository Notice
+
+This is a **documentation and demo showcase only**. The production application source code is private and not open-source.
 
 Interested in a demo or collaboration? Feel free to reach out!
 
@@ -679,3 +734,6 @@ Interested in a demo or collaboration? Feel free to reach out!
   <em>A local-first AI assistant that respects your privacy while delivering enterprise results.</em>
 </p>
 
+<p align="center">
+  <sub>© 2025 Dorrian Sidwell. All rights reserved. This repository is for portfolio/demo purposes only and may not be copied or redistributed without permission.</sub>
+</p>
