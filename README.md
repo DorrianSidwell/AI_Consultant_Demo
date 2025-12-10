@@ -121,7 +121,7 @@ Organizations face a critical dilemma when implementing AI-powered support:
 | ![Branding Tab](screenshots/devpage/branding/branding.jpg) | **Branding Tab** - App name, logo, tagline customization |
 | ![Theme Tab](screenshots/devpage/theme/theme%20.jpg) | **Theme Tab** - Colors, fonts, 8 background presets |
 | ![AI Prompts Tab](screenshots/devpage/ai-prompts/AI%20prompt.jpg) | **AI Prompts** - System role, personality, industry context |
-| ![AI Config Tab](screenshots/devpage/ai-config/AI%20config.jpg) | **AI Config** - Model selection, temperature, retrieval settings |
+| ![AI Config Tab](screenshots/devpage/ai-config/AI%20config.jpg) | **AI Config** - Model selection, temperature, retrieval settings and Azure cloud option|
 | ![AI Behavior Tab](screenshots/devpage/ai-behavior/AI%20Behaviour.jpg) | **AI Behavior** - Response style, confidence thresholds |
 | ![Escalated Items Tab](screenshots/devpage/escalated/Escalated%20items.jpg) | **Escalated Items** - Flagged responses for developer review |
 | ![AI Memory Tab](screenshots/devpage/AI%20memory.jpg) | **AI Memory** - Persistent custom instructions |
