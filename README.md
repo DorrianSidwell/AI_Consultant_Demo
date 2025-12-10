@@ -714,7 +714,7 @@ I can run the full application locally and demonstrate it via screen-share durin
 📩 **Contact me to schedule a demo:**
 - 💼 [LinkedIn](https://linkedin.com/in/dorriansidwell)
 - 🐙 [GitHub](https://github.com/DorrianSidwell)
-- 📧 Email: [your-email@example.com]
+- 📧 [Email](soaddorrian@gmail.com)
 
 ---
 
