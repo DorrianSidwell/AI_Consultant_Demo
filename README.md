@@ -1,7 +1,7 @@
 # DorrianAI - Enterprise AI Knowledge Assistant
 
 <p align="center">
-  <img src="screenshots/hero-banner.png" alt="DorrianAI Banner" width="100%">
+  <img src="screenshots/hero/hero-banner.png" alt="DorrianAI Banner" width="100%">
 </p>
 
 <p align="center">
@@ -86,45 +86,47 @@ Organizations face a critical dilemma when implementing AI-powered support:
 
 | Screenshot | Description |
 |------------|-------------|
-| ![Login Page](screenshots/01-login-page.png) | **Login Page** - Glassmorphism design with custom branding, gradient button, dynamic theming |
+| ![Login Page](screenshots/login-page.jpg) | **Login Page** - Glassmorphism design with custom branding, gradient button, dynamic theming |
 
 ### AI Chat Experience
 
 | Screenshot | Description |
 |------------|-------------|
-| ![Chat Interface](screenshots/02-chat-interface.png) | **Chat Interface** - Multi-turn conversations with AI |
-| ![AI Response](screenshots/03-ai-response.png) | **AI Response** - Confidence badge, category, next steps, source citations |
-| ![Draft Email](screenshots/04-draft-email.png) | **Draft Email Modal** - One-click professional email generation |
+| ![Chat Empty](screenshots/03-chat-empty.jpg) | **Chat Interface** - Clean starting point for new conversations |
+| ![Chat Response](screenshots/chat/chat%20and%20response.jpg) | **AI Response** - Confidence badge, category, next steps, source citations |
+| ![Flag Response 1](screenshots/chat/flag%20response%2001.jpg) | **Flag Response** - Users can flag incorrect AI responses |
+| ![Flag Response 2](screenshots/chat/flag%20response%2002.jpg) | **Flag Confirmation** - Feedback submitted for admin review |
+| ![Email Draft Request](screenshots/chat/email%20draft%20-%20request%20more%20info%20.jpg) | **Draft Email Modal** - One-click professional email generation |
+| ![Email Draft Full](screenshots/chat/email%20draft%20to%20user%20to%20request%20more%20info.jpg) | **Draft Email Preview** - Ready to copy and send |
 
 ### Knowledge Base Management
 
 | Screenshot | Description |
 |------------|-------------|
-| ![Documents Page](screenshots/05-documents-page.png) | **Documents Page** - Upload, preview, and manage knowledge base |
-| ![Index Status](screenshots/06-index-status.png) | **Index Status** - Monitor knowledge base health |
+| ![Documents Page](screenshots/documents/21-documents-list.png) | **Documents Page** - Upload, preview, and manage knowledge base |
 
 ### Admin Features
 
 | Screenshot | Description |
 |------------|-------------|
-| ![Knowledge Gaps](screenshots/07-knowledge-gaps.png) | **Knowledge Gaps** - Auto-logged low-confidence queries |
-| ![User Management](screenshots/08-users-page.png) | **User Management** - Create, edit, assign roles |
+| ![Knowledge Gaps](screenshots/knowledge-gaps/27-gaps-list.png) | **Knowledge Gaps** - Auto-logged low-confidence queries |
+| ![User Management](screenshots/users/33-users-list.png) | **User Management** - Create, edit, assign roles |
+| ![Sessions](screenshots/sessions/18-sessions-list.png) | **Sessions** - View and manage chat history |
+| ![Settings](screenshots/settings/63-settings-page.png) | **Settings** - User preferences and configuration |
 
 ### Developer Settings (7 Tabs)
 
 | Screenshot | Description |
 |------------|-------------|
-| ![Branding Tab](screenshots/09-dev-branding.png) | **Branding Tab** - App identity customization |
-| ![Theme Tab](screenshots/10-dev-theme.png) | **Theme Tab** - Colors, fonts, presets |
-| ![AI Config Tab](screenshots/11-dev-ai-config.png) | **AI Config** - Model selection, temperature, retrieval settings |
-| ![AI Memory Tab](screenshots/12-dev-ai-memory.png) | **AI Memory** - Persistent custom instructions |
-
-### White-Label Examples
-
-| Screenshot | Description |
-|------------|-------------|
-| ![Theme Example 1](screenshots/13-theme-example-1.png) | **Healthcare Theme** - NHS Blue preset |
-| ![Theme Example 2](screenshots/14-theme-example-2.png) | **Corporate Theme** - Professional dark mode |
+| ![Branding Tab](screenshots/devpage/branding/branding.jpg) | **Branding Tab** - App name, logo, tagline customization |
+| ![Theme Tab](screenshots/devpage/theme/theme%20.jpg) | **Theme Tab** - Colors, fonts, 8 background presets |
+| ![AI Prompts Tab](screenshots/devpage/ai-prompts/AI%20prompt.jpg) | **AI Prompts** - System role, personality, industry context |
+| ![AI Config Tab](screenshots/devpage/ai-config/AI%20config.jpg) | **AI Config** - Model selection, temperature, retrieval settings |
+| ![AI Behavior Tab](screenshots/devpage/ai-behavior/AI%20Behaviour.jpg) | **AI Behavior** - Response style, confidence thresholds |
+| ![Escalated Items Tab](screenshots/devpage/escalated/Escalated%20items.jpg) | **Escalated Items** - Flagged responses for developer review |
+| ![AI Memory Tab](screenshots/devpage/AI%20memory.jpg) | **AI Memory** - Persistent custom instructions |
+| ![Categories Tab](screenshots/devpage/Categories.jpg) | **Categories** - Organize knowledge by department |
+| ![Data Storage Tab](screenshots/devpage/Data%20storage%20page.jpg) | **Data Storage** - Database and storage configuration |
 
 ---
 
