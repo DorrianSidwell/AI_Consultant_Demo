@@ -300,7 +300,7 @@ User (Chat, Sessions, Settings)
 
 - 💼 [LinkedIn](https://linkedin.com/in/dorriansidwell)
 - 🐙 [GitHub](https://github.com/DorrianSidwell)
-- 📧 Email: *(add your email)*
+- 📧 Email: soaddorrian@gmail.com
 
 ---
 
